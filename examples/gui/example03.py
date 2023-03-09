@@ -1,22 +1,27 @@
-from tkinter import *
+import tkinter as tk
+import random
 
-CANVAS_WIDTH, CANVAS_HEIGHT = 600, 400
+# Initialiser la fenêtre Tkinter
+fenetre = tk.Tk()
+fenetre.title("Jeu du pendu")
 
-if __name__ == '__main__':
-    root = Tk()
+# Définir la liste de mots pour le jeu
+liste_mots = ["correction", "opportuniste", "ascenseur", "evrest", "situation", "saturation", "programmeur","aviateur","musicien"]
 
-    canvas = Canvas(root, width = CANVAS_WIDTH, height = CANVAS_HEIGHT)
+# Choisir un mot aléatoire de la liste
+mot_a_deviner = random.choice(liste_mots)
 
-    # Début de votre code
-    x0 = 100
-    x1 = CANVAS_WIDTH - 100
-    y = CANVAS_HEIGHT / 2
-    canvas.create_line(x0, y, x1, y)
-    canvas.create_oval(x0 - 50, y + 50, x0 + 50, y - 50)
-    canvas.create_oval(x1 - 50, y + 50, x1 + 50, y - 50)
-    canvas.create_oval((x0 + x1) / 2 - 50, y + 50, (x0 + x1) / 2 + 50, y - 50)
-    
-    # Fin de votre code
+# Initialiser les variables du jeu
+lettres_trouvees = []
+lettres_manquees = []
+nb_essais = 9
 
-    canvas.pack()
-    root.mainloop()
+# Fonction pour afficher le mot caché avec les lettres déjà trouvées
+def afficher_mot_cache(mot, lettres_trouvees):
+    mot_cache = ""
+    for lettre in mot:
+        if lettre in lettres_trouvees:
+            mot_cache += lettre
+        else:
+            mot_cache += "_"
+    return mot_cache

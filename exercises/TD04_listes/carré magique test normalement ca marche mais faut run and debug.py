@@ -1,65 +1,66 @@
 
-carre_mag = [[4, 14, 15, 1], [9, 7, 6, 12], [5, 11, 10, 8], [16, 2, 3, 13]]
-carre_pas_mag = [[4, 14, 15, 1], [9, 7, 6, 12], [5, 11, 10, 8], [16, 2, 7, 13]]
+carre_mag = [[4, 14, 15, 1], [9, 7, 6, 12], [5, 11, 10, 8], [16, 2, 3, 13]] # liste avec comme élément des liste je crois
+ #carré magique = ligne = a colonne = diago   inverse pour pas magique.
+carre_pas_mag=[]
+
+for ligne in carre_mag :
+    carre_pas_mag.append(ligne.copy)
+carre_pas_mag=[ligne[:] for ligne in carre_mag]
+carre_pas_mag[3][2]=7
+print(carre_pas_mag)
+print(carre_mag)
 
 def afficheCarre(carre):
     """ Affiche la liste à 2 dimensions carre comme un carré"""
-    for i in range(len(carre_mag)):
-        for j in range(len(carre_mag[i])):
-            print(carre_mag[i][j], end=' ')
-        print()
+    for ligne in carre :
+        print(ligne)
+    print()
 afficheCarre(carre_mag)
 
 print(" \n")
 
 afficheCarre(carre_pas_mag)
 
-
 def testLignesEgales(carre):
-    """ Renvoie la somme des éléments d'une ligne de la liste 2D carre si toutes les lignes ont la même somme, et -1 sinon """
-    a = sum(carre[0])
 
-    for i in range(len(carre)) :
-        if sum(carre[i]) != a :
+    somme = sum(carre[0])
+
+    for somme_ligne in carre :
+        if somme != sum(somme_ligne) :
             return -1
-    return a
+    return somme
 
 print(testLignesEgales(carre_mag))
-print(" \n")
 print(testLignesEgales(carre_pas_mag))
 
 
 def testColonnesEgales(carre):
-    """ Renvoie la somme des éléments d'une colonne de la liste 2D carre si toutes les colonnes ont la même somme, et -1 sinon """
-    a = sum([b[0] for b in carre])
-
-    for i in range(len(carre)) :
-        if sum([b[i] for b in carre]) != a :
+   c1=[ligne[0] for ligne in carre]
+   s1=sum(c1)
+   for nc in range(1,len(carre)):
+        c2=[ligne[nc]for ligne in carre]
+        if s1!=sum(c2):
             return -1
-    return a
-
+        return s1
 print(testColonnesEgales(carre_mag))
 print(testColonnesEgales(carre_pas_mag))
 
 
 def testDiagonalesEgales(carre):
-    """ Renvoie la somme des éléments d'une diagonale de la liste 2D carre si les 2 diagonales ont la même somme, et -1 sinon """
-    a = sum([c[carre.index(c)] for c in carre])
-    d = sum([c[carre.index(c) * (-1) - 1] for c in carre])  
-    for i in range(len(carre[0])) :
-        if sum([c[carre.index(c)] for c in carre]) != a and sum([c[carre.index(c) * (-1) - 1] for c in carre]) != a :
-            return -1
-    return a
+    d1=[carre[i][i]for i in range (len(carre))]
+    d2=[carre[i][len(carre)-i-1]for i in range(len(carre))]
+    s1=sum(d1)
+    if s1!=sum(d2):
+        return -1
+    return s1
 
 print(testDiagonalesEgales(carre_mag))
 print(testDiagonalesEgales(carre_pas_mag))
 
 
 def estCarreMagique(carre):
-    """ Renvoie True si c'est un carre magique et False sinon"""
-    if testDiagonalesEgales(carre) != -1 and testLignesEgales(carre) != -1 and testColonnesEgales(carre) != -1 :
-        return True
-    return False
+    return testDiagonalesEgales(carre)==testColonnesEgales(carre) and testLignesEgales(carre)== testDiagonalesEgales(carre) and testLignesEgales!=-1
+
 
 print(estCarreMagique(carre_mag))
 print(estCarreMagique(carre_pas_mag))
@@ -67,15 +68,13 @@ print(estCarreMagique(carre_pas_mag))
 
 
 def estNormal(carre):
-    """ Retourne True si contient toutes les valeurs de 1 à n^2 où n est la taille 
-        du carré, et False sinon """
-    n = sum([i for i in range(1 ,len(carre) ** 2 + 1)])
-    carre_sum = 0
-    for i in range(len(carre)) :
-        carre_sum += sum(carre[i])
-    if carre_sum == n :
-        return True
-    return False
+    liste=[]
+    for ligne in carre :
+       liste.extend(ligne)
+    for i in range(1,len(carre)*len(carre)+1):
+        if i not in liste:
+            return False
+    return True 
 
 print(estNormal(carre_mag))
 print(estNormal(carre_pas_mag))
